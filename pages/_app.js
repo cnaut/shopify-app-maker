@@ -6,6 +6,7 @@ import { Provider } from '@shopify/app-bridge-react';
 import Cookies from "js-cookie";
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
+import '../styles/globals.css'
 
 const client = new ApolloClient({
   fetchOptions: {
@@ -30,6 +31,10 @@ class MyApp extends App {
         <Head>
           <title>Sample App</title>
           <meta charSet="utf-8" />
+          <link
+            rel="stylesheet"
+            href="https://unpkg.com/@shopify/polaris@5.13.1/dist/styles.css"
+          />
         </Head>
         
         { this.props.router.route == "/builder" ? 

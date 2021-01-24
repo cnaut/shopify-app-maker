@@ -10,7 +10,7 @@ class Index extends React.Component {
 
   render() {
     const emptyState = !store.get('ids');
-    const title = store.get('title');
+    const title = store.get('title'); 
     console.log("STORE", title)
 
     return (
