@@ -1,4 +1,4 @@
-import { EmptyState, Layout, Page } from '@shopify/polaris';
+import { EmptyState, Layout, Page, Button } from '@shopify/polaris';
 import { ResourcePicker, TitleBar } from '@shopify/app-bridge-react';
 import store from 'store-js';
 import ResourceListWithProducts from '../components/ResourceList';
@@ -10,7 +10,14 @@ class Index extends React.Component {
 
   render() {
     const emptyState = !store.get('ids');
-    const title = store.get('title'); 
+    const title = store.get('title');
+    console.log("IN HERE")
+    console.log(store.get('components'))
+    const componentsString = store.get('components') || "";
+    console.log("COMPONENTS STRING", componentsString)
+    const components = this.parseComponents(componentsString);
+    console.log("COMPONENTS", components)
+    console.log("COMPONENTS", components)
     console.log("STORE", title)
 
     return (
@@ -40,6 +47,11 @@ class Index extends React.Component {
                 image={img}
               >
                 <p>Select products to change their price temporarily.</p>
+
+                { components.map((component) =>  (
+                  component || <div>None</div>
+                ))
+              }
               </EmptyState>
           </Layout>
         ) : (
@@ -54,6 +66,24 @@ class Index extends React.Component {
     this.setState({ open: false })
     store.set('ids', idsFromResources);
   };
+
+  parseComponents = (componentsString) => {
+    let componentsConfig = [];
+    try {
+      componentsConfig = JSON.parse(componentsString);
+    } catch(e) {
+      console.log(e);
+    }
+
+    let components = []
+    componentsConfig.forEach((config) => {
+      if (config.component == "button") {
+        components.push(<Button onClick={this.addButton}>Example button</Button>);
+      }
+    })
+
+    return components;
+  }
 }
 
 export default Index;

@@ -17,7 +17,8 @@ class Builder extends React.Component {
     super(props)
     this.state = {
       title: "title",
-      components: []
+      components: [],
+      componentsConfig: []
     }
   }
   
@@ -25,13 +26,18 @@ class Builder extends React.Component {
     return (
       <div>
         <div className="builder-div">
-          <TextField
-            value={this.state.title}
-            label="title"
-            onChange={this.handleChange}
-          />
+          <div>
+            <p>Text Field</p>
+            <TextField
+              value={this.state.title}
+              onChange={this.handleChange}
+            />
+          </div>
 
-          <Button onClick={this.addButton}>Example button</Button>
+          <div>
+            <p>Button</p>
+            <Button onClick={this.addButton}>Example button</Button>
+          </div>
         </div>
 
         <div className="preview-div">
@@ -55,7 +61,16 @@ class Builder extends React.Component {
   addButton = () => {
     let components = [...this.state.components]
     components.push(<Button onClick={this.addButton}>Example button</Button>)
-    this.setState({components: components})
+
+    let componentsConfig = [...this.state.componentsConfig]
+    componentsConfig.push({
+      component: "button"
+    })
+
+    this.setState({components: components, componentsConfig: componentsConfig})
+
+    let stringifiedComponents = JSON.stringify(componentsConfig)
+    store.set("components", stringifiedComponents)
   }
 }
 
