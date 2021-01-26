@@ -1,9 +1,23 @@
 .builder-div {
   display: inline-block;
-  width: 49%
+  width: 49%;
+  padding-right: 10px;
+  border-right-color: grey;
+  border-right-width: 1px;
+  border-right-style: solid;
 }
 
 .preview-div {
   display: inline-block;
-  width: 49%
+  width: 49%;
+  min-height: 250px;
+}
+
+.builder-container {
+  margin: 25px;
+}
+
+.component-div {
+  margin-top: 25px;
+  margin-bottom: 25px;
 }
