@@ -25,7 +25,8 @@ class Builder extends React.Component {
     }
 
     this.ItemTypes = {
-      BUTTON: 'button'
+      BUTTON: 'button',
+      DISPLAY_TEXT: 'display text'
     }
   }
 
@@ -49,9 +50,7 @@ class Builder extends React.Component {
             cursor: 'move',
           }}
         >
-          <Button 
-            onClick={this.addButton}
-          >
+          <Button>
             Example button
           </Button>
         </div>
@@ -60,10 +59,36 @@ class Builder extends React.Component {
     )
   }
 
+  DisplayTextComponent = () => {
+    const [{ isDragging }, drag] = useDrag({
+      item: { type: this.ItemTypes.DISPLAY_TEXT },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging()
+      })
+    })
+    
+    return (
+      <div className="component-div">
+        <p>Display Text</p>
+        <div
+          ref={drag}
+          style={{
+            opacity: isDragging ? 0.5 : 1,
+            fontSize: 25,
+            fontWeight: 'bold',
+            cursor: 'move',
+          }}
+        >
+          <DisplayText size="large">Example Text</DisplayText>
+        </div>
+      </div>
+    )
+  }
+
   PreviewComponent = () => {
     const [, drop] = useDrop({
-      accept: this.ItemTypes.BUTTON,
-      drop: () => this.addButton()
+      accept: [this.ItemTypes.BUTTON, this.ItemTypes.DISPLAY_TEXT],
+      drop: (item, monitor) => this.addComponent(item, monitor)
     })
 
     return (
@@ -100,9 +125,7 @@ class Builder extends React.Component {
 
             <hr />
 
-            <div className="component-div">
-              <DisplayText size="large">Display Text</DisplayText>
-            </div>
+            <this.DisplayTextComponent />
           </div>
 
           <this.PreviewComponent />
@@ -119,11 +142,19 @@ class Builder extends React.Component {
     store.set("title", value)
   };
 
-  addButton = () => {
-    console.log("ADDING")
+  addComponent = (item, monitor) => {
     let components = [...this.state.components]
-    components.push(<Button onClick={this.addButton}>Example button</Button>)
 
+    switch(item.type) {
+      case this.ItemTypes.BUTTON:
+        components.push(<Button>Example button</Button>)
+        break;
+
+      case this.ItemTypes.DISPLAY_TEXT:
+        components.push(<DisplayText size="large">Example Text</DisplayText>)
+        break;
+    }
+    
     let componentsConfig = [...this.state.componentsConfig]
     componentsConfig.push({
       component: "button"
