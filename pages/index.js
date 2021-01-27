@@ -1,4 +1,4 @@
-import { EmptyState, Layout, Page, Button } from '@shopify/polaris';
+import { EmptyState, Layout, Page, Button, TextField, DisplayText } from '@shopify/polaris';
 import { ResourcePicker, TitleBar } from '@shopify/app-bridge-react';
 import store from 'store-js';
 import ResourceListWithProducts from '../components/ResourceList';
@@ -75,10 +75,26 @@ class Index extends React.Component {
       console.log(e);
     }
 
+    this.ItemTypes = {
+      TEXT_FIELD: 'text field',
+      BUTTON: 'button',
+      DISPLAY_TEXT: 'display text'
+    }
+
     let components = []
     componentsConfig.forEach((config) => {
-      if (config.component == "button") {
-        components.push(<Button onClick={this.addButton}>Example button</Button>);
+      switch(config.type) {
+        case this.ItemTypes.TEXT_FIELD:
+          components.push(<TextField value={this.state.title} />)
+          break;
+  
+        case this.ItemTypes.BUTTON:
+          components.push(<Button>Example button</Button>)
+          break;
+  
+        case this.ItemTypes.DISPLAY_TEXT:
+          components.push(<DisplayText size="large">Example Text</DisplayText>)
+          break;
       }
     })
 

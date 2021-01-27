@@ -25,9 +25,38 @@ class Builder extends React.Component {
     }
 
     this.ItemTypes = {
+      TEXT_FIELD: 'text field',
       BUTTON: 'button',
       DISPLAY_TEXT: 'display text'
     }
+  }
+
+  TextFieldComponent = () => {
+    const [{ isDragging }, drag] = useDrag({
+      item: { type: this.ItemTypes.TEXT_FIELD },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging()
+      })
+    })
+
+    return (
+      <div className="component-div">
+        <p>Text Field</p>
+        <div
+          ref={drag}
+          style={{
+            opacity: isDragging ? 0.5 : 1,
+            fontSize: 25,
+            fontWeight: 'bold',
+            cursor: 'move',
+          }}
+        >
+          <TextField
+            value={this.state.title}
+          />
+        </div>
+      </div>
+    )
   }
 
   ButtonComponent = () => {
@@ -87,7 +116,7 @@ class Builder extends React.Component {
 
   PreviewComponent = () => {
     const [, drop] = useDrop({
-      accept: [this.ItemTypes.BUTTON, this.ItemTypes.DISPLAY_TEXT],
+      accept: [this.ItemTypes.BUTTON, this.ItemTypes.DISPLAY_TEXT, this.ItemTypes.TEXT_FIELD],
       drop: (item, monitor) => this.addComponent(item, monitor)
     })
 
@@ -111,13 +140,7 @@ class Builder extends React.Component {
           <div className="builder-div">
             <h2>Components</h2>
             
-            <div className="component-div">
-              <p>Text Field</p>
-              <TextField
-                value={this.state.title}
-                onChange={this.handleChange}
-              />
-            </div>
+            <this.TextFieldComponent />
 
             <hr />
             
@@ -144,8 +167,13 @@ class Builder extends React.Component {
 
   addComponent = (item, monitor) => {
     let components = [...this.state.components]
+    let componentsConfig = [...this.state.componentsConfig]
 
     switch(item.type) {
+      case this.ItemTypes.TEXT_FIELD:
+        components.push(<TextField value={this.state.title} />)
+        break;
+
       case this.ItemTypes.BUTTON:
         components.push(<Button>Example button</Button>)
         break;
@@ -154,10 +182,9 @@ class Builder extends React.Component {
         components.push(<DisplayText size="large">Example Text</DisplayText>)
         break;
     }
-    
-    let componentsConfig = [...this.state.componentsConfig]
+
     componentsConfig.push({
-      component: "button"
+      type: item.type
     })
 
     this.setState({components: components, componentsConfig: componentsConfig})
