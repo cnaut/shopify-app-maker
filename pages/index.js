@@ -46,8 +46,6 @@ class Index extends React.Component {
                 }}
                 image={img}
               >
-                <p>Select products to change their price temporarily.</p>
-
                 { components.map((component) =>  (
                   component || <div>None</div>
                 ))

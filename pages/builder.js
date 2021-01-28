@@ -11,6 +11,10 @@ import {
   TextStyle,
   DisplayText
 } from '@shopify/polaris';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import { useDrag, useDrop, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import store from 'store-js';
@@ -136,24 +140,35 @@ class Builder extends React.Component {
   render() {
     return (
       <DndProvider backend={HTML5Backend}>
-        <div className="builder-container">
-          <div className="builder-div">
-            <h2>Components</h2>
-            
-            <this.TextFieldComponent />
+        <Container className="builder-container">
+          <Row>
+            <Col className="builder-div">
+              <h2>Components</h2>
+              <div>
+                <this.TextFieldComponent />
 
-            <hr />
-            
-            <this.ButtonComponent />
+                <hr />
+                
+                <this.ButtonComponent />
 
-            <hr />
+                <hr />
 
-            <this.DisplayTextComponent />
-          </div>
+                <this.DisplayTextComponent />
+              </div>
 
-          <this.PreviewComponent />
+              <h2>Data</h2>
+              <div>
+                <p>Products</p>
+              </div>  
+            </Col>
 
-        </div>
+            <Col>
+              <this.PreviewComponent />
+            </Col>
+          </Row>
+
+
+        </Container>
       </DndProvider>
     );
   }

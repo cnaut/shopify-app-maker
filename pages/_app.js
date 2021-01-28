@@ -8,13 +8,16 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import '../styles/globals.css'
 
+import '@shopify/polaris/dist/styles.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 const client = new ApolloClient({
   fetchOptions: {
     credentials: 'include',
   },
 });
 
-import '@shopify/polaris/dist/styles.css';
 class MyApp extends App {
 
   static async getInitialProps(server) {
