@@ -54,9 +54,10 @@ class ResourceListWithProducts extends React.Component {
     };
 
     const twoWeeksFromNow = new Date(Date.now() + 12096e5).toDateString();
-    
+
+    const ids = store.get('ids') || ["gid://shopify/Product/6151209812152","gid://shopify/Product/6151209910456","gid://shopify/Product/6151210270904"]
     return (
-      <Query query={GET_PRODUCTS_BY_ID} variables={{ ids: store.get('ids') }}>
+      <Query query={GET_PRODUCTS_BY_ID} variables={{ ids }}>
         {({ data, loading, error }) => {
           if (loading) return <div>Loading…</div>;
           if (error) return <div>{error.message}</div>;

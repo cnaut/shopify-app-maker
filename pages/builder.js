@@ -11,6 +11,8 @@ import {
   TextStyle,
   DisplayText
 } from '@shopify/polaris';
+import ResourceListWithProducts from '../components/ResourceList';
+
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -31,7 +33,8 @@ class Builder extends React.Component {
     this.ItemTypes = {
       TEXT_FIELD: 'text field',
       BUTTON: 'button',
-      DISPLAY_TEXT: 'display text'
+      DISPLAY_TEXT: 'display text',
+      PRODUCTS: 'products'
     }
   }
 
@@ -50,8 +53,6 @@ class Builder extends React.Component {
           ref={drag}
           style={{
             opacity: isDragging ? 0.5 : 1,
-            fontSize: 25,
-            fontWeight: 'bold',
             cursor: 'move',
           }}
         >
@@ -78,8 +79,6 @@ class Builder extends React.Component {
           ref={drag}
           style={{
             opacity: isDragging ? 0.5 : 1,
-            fontSize: 25,
-            fontWeight: 'bold',
             cursor: 'move',
           }}
         >
@@ -107,8 +106,6 @@ class Builder extends React.Component {
           ref={drag}
           style={{
             opacity: isDragging ? 0.5 : 1,
-            fontSize: 25,
-            fontWeight: 'bold',
             cursor: 'move',
           }}
         >
@@ -118,9 +115,32 @@ class Builder extends React.Component {
     )
   }
 
+  ProductsComponent = () => {
+    const [{ isDragging }, drag] = useDrag({
+      item: { type: this.ItemTypes.PRODUCTS },
+      collect: (monitor) => ({
+        isDragging: !!monitor.isDragging()
+      })
+    })
+    
+    return (
+      <div className="component-div">
+        <div
+          ref={drag}
+          style={{
+            opacity: isDragging ? 0.5 : 1,
+            cursor: 'move',
+          }}
+        >
+          <p>Products</p>
+        </div>
+      </div>
+    )
+  }
+
   PreviewComponent = () => {
     const [, drop] = useDrop({
-      accept: [this.ItemTypes.BUTTON, this.ItemTypes.DISPLAY_TEXT, this.ItemTypes.TEXT_FIELD],
+      accept: [this.ItemTypes.BUTTON, this.ItemTypes.DISPLAY_TEXT, this.ItemTypes.TEXT_FIELD, this.ItemTypes.PRODUCTS],
       drop: (item, monitor) => this.addComponent(item, monitor)
     })
 
@@ -158,7 +178,7 @@ class Builder extends React.Component {
 
               <h2>Data</h2>
               <div>
-                <p>Products</p>
+                <this.ProductsComponent />
               </div>  
             </Col>
 
@@ -195,6 +215,10 @@ class Builder extends React.Component {
 
       case this.ItemTypes.DISPLAY_TEXT:
         components.push(<DisplayText size="large">Example Text</DisplayText>)
+        break;
+
+      case this.ItemTypes.PRODUCTS:
+        components.push(<ResourceListWithProducts />)
         break;
     }
 

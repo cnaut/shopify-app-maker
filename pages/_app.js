@@ -40,12 +40,6 @@ class MyApp extends App {
           />
         </Head>
         
-        { this.props.router.route == "/builder" ? 
-        (
-          <AppProvider>
-            <Component {...pageProps} />
-          </AppProvider>
-        ) : (
           <Provider config={config}>
             <ClientRouter />
             <AppProvider>
@@ -54,7 +48,6 @@ class MyApp extends App {
               </ApolloProvider>
             </AppProvider>
           </Provider>
-        )}
 
 
       </React.Fragment>

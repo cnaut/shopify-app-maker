@@ -36,25 +36,21 @@ class Index extends React.Component {
           onSelection={(resources) => this.handleSelection(resources)}
           onCancel={() => this.setState({ open: false })}
         />
-        {emptyState ? (
-          <Layout>
-            <EmptyState
-                heading={title}
-                action={{
-                  content: 'Select products',
-                  onAction: () => this.setState({ open: true }),
-                }}
-                image={img}
-              >
-                { components.map((component) =>  (
-                  component || <div>None</div>
-                ))
-              }
-              </EmptyState>
-          </Layout>
-        ) : (
-          <ResourceListWithProducts />
-        )}
+        <Layout>
+          <EmptyState
+              heading={title}
+              action={{
+                content: 'Select products',
+                onAction: () => this.setState({ open: true }),
+              }}
+              image={img}
+            >
+              { components.map((component) =>  (
+                component || <div>None</div>
+              ))
+            }
+            </EmptyState>
+        </Layout>
       </Page>
     );
   }
@@ -76,7 +72,8 @@ class Index extends React.Component {
     this.ItemTypes = {
       TEXT_FIELD: 'text field',
       BUTTON: 'button',
-      DISPLAY_TEXT: 'display text'
+      DISPLAY_TEXT: 'display text',
+      PRODUCTS: 'products'
     }
 
     let components = []
@@ -92,6 +89,10 @@ class Index extends React.Component {
   
         case this.ItemTypes.DISPLAY_TEXT:
           components.push(<DisplayText size="large">Example Text</DisplayText>)
+          break;
+
+        case this.ItemTypes.PRODUCTS:
+          components.push(<ResourceListWithProducts />)
           break;
       }
     })
